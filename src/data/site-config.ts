@@ -8,6 +8,14 @@ export const siteImages = {
 export const phone = "8802607687";
 export const phoneLink = `tel:${phone}`;
 export const whatsappLink = `https://wa.me/91${phone}`;
+export const activityVideos = Array.from({ length: 12 }, (_, index) => {
+  const number = String(index + 1).padStart(2, "0");
+  return {
+    src: `/media/videos/activity-${number}.mp4`,
+    poster: `/media/posters/activity-${number}.jpg`,
+    title: `संगठन गतिविधि ${number}`,
+  };
+});
 export const address = "ओखला, पुराना जसोला मेन रोड, C-8, चौथी मंजिल, नई दिल्ली – 110025";
 export const directionsLink =
   "https://www.google.com/maps/search/?api=1&query=C-8%2C%20Purana%20Jasola%20Main%20Road%2C%20Okhla%2C%20New%20Delhi%20110025";

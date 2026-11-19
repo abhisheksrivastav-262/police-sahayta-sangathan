@@ -11,13 +11,8 @@ const galleryImages = [
     title: "पुलिस सहायता संगठन · ऑल इंडिया",
     logo: true,
   },
-  { src: siteImages.nisha, alt: "राष्ट्रीय अध्यक्ष निशा का मूल चित्र", title: "राष्ट्रीय अध्यक्ष – निशा" },
-  {
-    src: siteImages.nishaGallery,
-    alt: "राष्ट्रीय अध्यक्ष निशा का मूल पोस्टर",
-    title: "राष्ट्रीय अध्यक्ष – निशा",
-  },
-  { src: siteImages.nishaMain, alt: "राष्ट्रीय अध्यक्ष निशा का मूल बैनर", title: "राष्ट्रीय अध्यक्ष – निशा" },
+  { src: siteImages.nishaMain, alt: "राष्ट्रीय अध्यक्ष निशा का पूरा बैनर", title: "राष्ट्रीय अध्यक्ष – बैनर" },
+  { src: siteImages.nisha, alt: "राष्ट्रीय अध्यक्ष निशा का पोर्ट्रेट", title: "राष्ट्रीय अध्यक्ष – पोर्ट्रेट" },
   ...Array.from({ length: 18 }, (_, i) => ({
     src: `/media/images/activity-${String(i + 1).padStart(2, "0")}.jpg`,
     alt: `संगठन गतिविधि की मूल तस्वीर ${i + 1}`,

@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { ArrowRight, Menu, Phone, X, type LucideIcon } from "lucide-react";
+import { ArrowRight, Menu, MessageCircle, Phone, X, type LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Service } from "@/data/site";
 import {
@@ -11,15 +11,52 @@ import {
   phoneLink,
   siteImages,
   whatsappLink,
+  activityVideos,
 } from "@/data/site-config";
 
 export function SiteLayout({ children }: { children: ReactNode }) {
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
   return (
     <div className="min-h-screen overflow-clip bg-background text-foreground">
       <SiteHeader />
       <main>{children}</main>
+      {pathname !== "/" && pathname !== "/gallery" && <ActivityPhotoSection />}
       <SiteFooter />
+      <div className="floating-contact" aria-label="त्वरित संपर्क">
+        <a className="floating-contact-call" href={phoneLink} aria-label="फोन करें">
+          <Phone aria-hidden="true" /> <span>कॉल</span>
+        </a>
+        <a className="floating-contact-whatsapp" href={whatsappLink} target="_blank" rel="noreferrer" aria-label="WhatsApp पर संपर्क करें">
+          <MessageCircle aria-hidden="true" /> <span>WhatsApp</span>
+        </a>
+      </div>
     </div>
+  );
+}
+
+function ActivityPhotoSection() {
+  return (
+    <section className="site-activity-strip" aria-label="संगठन की गतिविधियों की तस्वीरें">
+      <div className="page-wrap">
+        <div className="site-activity-heading">
+          <div>
+            <p className="section-label"><span className="section-label-line" />कार्यक्रमों की झलक</p>
+            <h2 className="section-title mt-3">समुदाय के साथ संगठन</h2>
+          </div>
+          <Link to="/gallery" className="inline-flex items-center gap-2 text-sm font-extrabold text-brand-blue">
+            सभी तस्वीरें और वीडियो <ArrowRight aria-hidden="true" />
+          </Link>
+        </div>
+        <div className="site-activity-grid">
+          {activityVideos.slice(0, 3).map((item, index) => (
+            <Link to="/gallery" className="site-activity-card" key={item.src}>
+              <img src={`/media/images/activity-${String(index + 1).padStart(2, "0")}.jpg`} alt={`संगठन गतिविधि ${index + 1}`} loading="lazy" />
+              <span>संगठन की गतिविधि {index + 1}</span>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 

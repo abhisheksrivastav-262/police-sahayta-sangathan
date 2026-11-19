@@ -11,7 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { InfoCard, SectionLabel, ServiceCard, SiteLayout } from "@/components/site";
 import { services } from "@/data/site";
-import { siteImages, phone, phoneLink, whatsappLink } from "@/data/site-config";
+import { activityVideos, siteImages, phone, phoneLink, whatsappLink } from "@/data/site-config";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -29,7 +29,7 @@ export const Route = createFileRoute("/")({
 
 function HomePage() {
   const [activeSelfDefenseVideo, setActiveSelfDefenseVideo] = useState(0);
-  const homeActivityImages = [1, 2, 3].map(
+  const homeActivityImages = Array.from({ length: 18 }, (_, index) => index + 1).map(
     (number) => `/media/images/activity-${String(number).padStart(2, "0")}.jpg`,
   );
 
@@ -232,7 +232,7 @@ function HomePage() {
               <SectionLabel>बच्चों की सुरक्षा</SectionLabel>
               <h2 className="section-title mt-3">बच्चों के लिए आत्मरक्षा जागरूकता</h2>
               <p className="mt-4 max-w-2xl leading-8 text-muted-foreground">
-                बच्चों में सुरक्षा, आत्मविश्वास और सतर्कता के महत्व पर तीन वीडियो देखें।
+                संगठन के कार्यक्रमों की पूरी वीडियो श्रृंखला देखें।
               </p>
             </div>
             <span className="self-defense-mark">
@@ -247,12 +247,10 @@ function HomePage() {
                 controls
                 playsInline
                 preload="metadata"
-                aria-label={`बच्चों के आत्मरक्षा जागरूकता का वीडियो ${activeSelfDefenseVideo + 1}`}
+                poster={activityVideos[activeSelfDefenseVideo].poster}
+                aria-label={activityVideos[activeSelfDefenseVideo].title}
               >
-                <source
-                  src={`/children-self-defense-0${activeSelfDefenseVideo + 1}.mp4`}
-                  type="video/mp4"
-                />
+                <source src={activityVideos[activeSelfDefenseVideo].src} type="video/mp4" />
                 आपका ब्राउज़र वीडियो चलाने में सक्षम नहीं है।
               </video>
             </div>
@@ -260,19 +258,19 @@ function HomePage() {
               <button
                 type="button"
                 className="slider-arrow"
-                onClick={() => setActiveSelfDefenseVideo((index) => (index + 2) % 3)}
+                onClick={() => setActiveSelfDefenseVideo((index) => (index + activityVideos.length - 1) % activityVideos.length)}
                 aria-label="पिछला वीडियो"
               >
                 <ArrowLeft aria-hidden="true" />
               </button>
               <div className="self-defense-pagination" role="group" aria-label="वीडियो चुनें">
-                {[0, 1, 2].map((index) => (
+                {activityVideos.map((video, index) => (
                   <button
                     key={index}
                     type="button"
                     className={`video-dot ${activeSelfDefenseVideo === index ? "is-active" : ""}`}
                     onClick={() => setActiveSelfDefenseVideo(index)}
-                    aria-label={`वीडियो ${index + 1}`}
+                    aria-label={video.title}
                     aria-pressed={activeSelfDefenseVideo === index}
                   >
                     {String(index + 1).padStart(2, "0")}
@@ -280,12 +278,12 @@ function HomePage() {
                 ))}
               </div>
               <span className="self-defense-count">
-                {String(activeSelfDefenseVideo + 1).padStart(2, "0")} / 03
+                {String(activeSelfDefenseVideo + 1).padStart(2, "0")} / {String(activityVideos.length).padStart(2, "0")}
               </span>
               <button
                 type="button"
                 className="slider-arrow"
-                onClick={() => setActiveSelfDefenseVideo((index) => (index + 1) % 3)}
+                onClick={() => setActiveSelfDefenseVideo((index) => (index + 1) % activityVideos.length)}
                 aria-label="अगला वीडियो"
               >
                 <ArrowRight aria-hidden="true" />

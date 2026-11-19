@@ -285,31 +285,33 @@
   box-shadow: 0 1rem 3rem color-mix(in oklab, var(--brand-blue) 8%, transparent);
 }
 .gallery-page-grid {
-  columns: 3 15rem;
-  column-gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: 1rem;
 }
 .gallery-page-grid .gallery-portrait-panel {
-  display: inline-flex;
+  display: flex;
   width: 100%;
   min-height: 0;
   height: auto;
   aspect-ratio: auto;
-  margin: 0 0 1rem;
-  break-inside: avoid;
+  align-self: start;
   flex-direction: column;
   overflow: hidden;
   border-radius: 0.75rem;
+  border: 1px solid var(--border);
+  background: var(--background);
   cursor: zoom-in;
 }
 .gallery-page-grid .gallery-portrait-panel img {
-  position: static;
+  position: relative;
   display: block;
   width: 100%;
   height: auto;
   max-height: 34rem;
-  aspect-ratio: auto;
+  flex: none;
   object-fit: contain;
-  background: var(--brand-blue-soft);
+  background: #f4f7fb;
 }
 .gallery-page-grid .gallery-logo-panel img {
   width: 100%;
@@ -319,7 +321,7 @@
   object-fit: contain;
 }
 .gallery-page-grid .gallery-caption {
-  position: static;
+  position: relative;
   display: block;
   width: 100%;
   text-align: left;
@@ -360,6 +362,66 @@
   color: var(--brand-blue);
   font-weight: 700;
 }
+.site-activity-strip {
+  padding-block: clamp(3rem, 7vw, 5.5rem);
+  border-top: 1px solid var(--border);
+  background: color-mix(in oklab, var(--brand-blue-soft) 48%, var(--background));
+}
+.site-activity-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.site-activity-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+.site-activity-card {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: var(--background);
+  box-shadow: 0 0.75rem 2rem color-mix(in oklab, var(--brand-blue) 8%, transparent);
+}
+.site-activity-card img {
+  display: block;
+  width: 100%;
+  height: 15rem;
+  object-fit: cover;
+}
+.site-activity-card span {
+  display: block;
+  padding: 0.8rem 1rem;
+  color: var(--brand-blue);
+  font-weight: 700;
+}
+.floating-contact {
+  position: fixed;
+  z-index: 70;
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  display: grid;
+  gap: 0.65rem;
+}
+.floating-contact a {
+  display: inline-flex;
+  min-height: 3.25rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  border-radius: 999px;
+  padding: 0.7rem 1rem;
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 800;
+  box-shadow: 0 0.5rem 1.4rem #0f172a33;
+}
+.floating-contact-call { background: var(--brand-red); }
+.floating-contact-whatsapp { background: #168b52; }
+.floating-contact svg { width: 1.15rem; height: 1.15rem; }
 .president-feature-photo {
   position: relative;
   overflow: hidden;
@@ -821,18 +883,18 @@
   object-fit: contain;
 }
 .gallery-portrait-panel:not(.gallery-logo-panel) img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  position: static;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: min(78vh, 38rem);
+  margin-inline: auto;
   object-fit: contain;
   object-position: center center;
 }
 .gallery-caption {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  position: static;
+  display: block;
   background: color-mix(in oklab, var(--background) 94%, transparent);
   padding: 0.8rem 1rem;
   color: var(--brand-blue);
@@ -999,8 +1061,10 @@
     gap: 0.65rem;
   }
   .gallery-page-grid {
-    columns: 1 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+  .site-activity-grid { grid-template-columns: 1fr; }
+  .site-activity-heading { align-items: flex-start; flex-direction: column; }
   .home-activity-grid {
     grid-template-columns: 1fr;
   }
@@ -1015,9 +1079,12 @@
   }
 }
 @media (max-width: 560px) {
+  .gallery-page-grid { grid-template-columns: 1fr; }
   .gallery-video-grid {
     grid-template-columns: 1fr;
   }
+  .floating-contact a { width: 3.25rem; min-width: 3.25rem; padding: 0; }
+  .floating-contact a span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
 }
 @media (prefers-reduced-motion: reduce) {
   *,
