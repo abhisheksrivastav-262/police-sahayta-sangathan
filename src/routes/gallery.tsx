@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { X } from "lucide-react";
-import { PageBanner, SiteLayout } from "@/components/site";
+import { CommunityActivityCard, PageBanner, SiteLayout } from "@/components/site";
 import { siteImages } from "@/data/site-config";
+import { communityActivities } from "@/data/community-activities";
 
 const galleryImages = [
   {
@@ -60,6 +61,16 @@ function GalleryPage() {
       />
       <section className="section-pad">
         <div className="page-wrap">
+          <h2 className="mb-3 text-2xl font-bold text-primary">संगठन के काम और अभियान</h2>
+          <p className="mb-6 max-w-3xl leading-7 text-muted-foreground">
+            तस्वीरें और वीडियो क्रमांक के साथ दिए गए हैं। हर मीडिया के नीचे उसका विवरण पढ़ें।
+          </p>
+          <div className="community-activity-grid">
+            {communityActivities.map((activity) => (
+              <CommunityActivityCard activity={activity} key={activity.number} />
+            ))}
+          </div>
+
           <h2 className="mb-5 text-2xl font-bold text-primary">तस्वीरें</h2>
           <div className="gallery-page-grid">
             {galleryImages.map((item) => (

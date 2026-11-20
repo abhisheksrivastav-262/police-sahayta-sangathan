@@ -9,9 +9,10 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { InfoCard, SectionLabel, ServiceCard, SiteLayout } from "@/components/site";
+import { CommunityActivityCard, InfoCard, SectionLabel, ServiceCard, SiteLayout } from "@/components/site";
 import { services } from "@/data/site";
 import { activityVideos, siteImages, phone, phoneLink, whatsappLink } from "@/data/site-config";
+import { communityActivities } from "@/data/community-activities";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -29,10 +30,15 @@ export const Route = createFileRoute("/")({
 
 function HomePage() {
   const [activeSelfDefenseVideo, setActiveSelfDefenseVideo] = useState(0);
-  const homeActivityImages = Array.from({ length: 18 }, (_, index) => index + 1).map(
-    (number) => `/media/images/activity-${String(number).padStart(2, "0")}.jpg`,
-  );
-
+  const homeVideos = [
+    ...activityVideos.map((video) => ({ ...video, description: "" })),
+    ...communityActivities.filter((activity) => activity.kind === "video").map((activity) => ({
+      src: activity.src,
+      poster: activity.poster,
+      title: `गतिविधि ${activity.number}`,
+      description: activity.description,
+    })),
+  ];
   return (
     <SiteLayout>
       <section id="home" className="hero-section">
@@ -215,12 +221,9 @@ function HomePage() {
               पूरी गैलरी देखें <ArrowRight aria-hidden="true" />
             </Link>
           </div>
-          <div className="home-activity-grid mt-8">
-            {homeActivityImages.map((src, index) => (
-              <Link to="/gallery" className="home-activity-card" key={src}>
-                <img src={src} alt={`संगठन की गतिविधि की तस्वीर ${index + 1}`} loading="lazy" />
-                <span>संगठन की गतिविधियों की झलक</span>
-              </Link>
+          <div className="community-activity-grid mt-8">
+            {communityActivities.map((activity) => (
+              <CommunityActivityCard activity={activity} key={activity.number} />
             ))}
           </div>
         </div>
@@ -229,8 +232,8 @@ function HomePage() {
         <div className="page-wrap">
           <div className="self-defense-heading">
             <div>
-              <SectionLabel>बच्चों की सुरक्षा</SectionLabel>
-              <h2 className="section-title mt-3">बच्चों के लिए आत्मरक्षा जागरूकता</h2>
+              <SectionLabel>वीडियो श्रृंखला</SectionLabel>
+              <h2 className="section-title mt-3">संगठन की गतिविधियों के वीडियो</h2>
               <p className="mt-4 max-w-2xl leading-8 text-muted-foreground">
                 संगठन के कार्यक्रमों की पूरी वीडियो श्रृंखला देखें।
               </p>
@@ -247,10 +250,10 @@ function HomePage() {
                 controls
                 playsInline
                 preload="metadata"
-                poster={activityVideos[activeSelfDefenseVideo].poster}
-                aria-label={activityVideos[activeSelfDefenseVideo].title}
+                poster={homeVideos[activeSelfDefenseVideo].poster}
+                aria-label={homeVideos[activeSelfDefenseVideo].description || homeVideos[activeSelfDefenseVideo].title}
               >
-                <source src={activityVideos[activeSelfDefenseVideo].src} type="video/mp4" />
+                <source src={homeVideos[activeSelfDefenseVideo].src} type="video/mp4" />
                 आपका ब्राउज़र वीडियो चलाने में सक्षम नहीं है।
               </video>
             </div>
@@ -258,19 +261,19 @@ function HomePage() {
               <button
                 type="button"
                 className="slider-arrow"
-                onClick={() => setActiveSelfDefenseVideo((index) => (index + activityVideos.length - 1) % activityVideos.length)}
+                onClick={() => setActiveSelfDefenseVideo((index) => (index + homeVideos.length - 1) % homeVideos.length)}
                 aria-label="पिछला वीडियो"
               >
                 <ArrowLeft aria-hidden="true" />
               </button>
               <div className="self-defense-pagination" role="group" aria-label="वीडियो चुनें">
-                {activityVideos.map((video, index) => (
+                {homeVideos.map((video, index) => (
                   <button
                     key={index}
                     type="button"
                     className={`video-dot ${activeSelfDefenseVideo === index ? "is-active" : ""}`}
                     onClick={() => setActiveSelfDefenseVideo(index)}
-                    aria-label={video.title}
+                    aria-label={video.description || video.title}
                     aria-pressed={activeSelfDefenseVideo === index}
                   >
                     {String(index + 1).padStart(2, "0")}
@@ -278,18 +281,21 @@ function HomePage() {
                 ))}
               </div>
               <span className="self-defense-count">
-                {String(activeSelfDefenseVideo + 1).padStart(2, "0")} / {String(activityVideos.length).padStart(2, "0")}
+                {String(activeSelfDefenseVideo + 1).padStart(2, "0")} / {String(homeVideos.length).padStart(2, "0")}
               </span>
               <button
                 type="button"
                 className="slider-arrow"
-                onClick={() => setActiveSelfDefenseVideo((index) => (index + 1) % activityVideos.length)}
+                onClick={() => setActiveSelfDefenseVideo((index) => (index + 1) % homeVideos.length)}
                 aria-label="अगला वीडियो"
               >
                 <ArrowRight aria-hidden="true" />
               </button>
             </div>
           </div>
+          <p className="mt-4 max-w-3xl text-sm leading-7 text-muted-foreground">
+            {homeVideos[activeSelfDefenseVideo].description || homeVideos[activeSelfDefenseVideo].title}
+          </p>
           <Link
             to="/education-health"
             className="mt-5 inline-flex items-center gap-2 text-sm font-extrabold text-brand-blue"

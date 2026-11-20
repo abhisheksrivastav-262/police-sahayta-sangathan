@@ -1,8 +1,10 @@
+const presidentPortrait = "/media/community/images/community-27.png";
+
 export const siteImages = {
   logo: "/images/organization-logo.png",
-  nisha: "/images/nisha-portrait-clean.png",
-  nishaGallery: "/images/nisha-portrait-gallery.png",
-  nishaMain: "/images/nisha-portrait-main.png",
+  nisha: presidentPortrait,
+  nishaGallery: presidentPortrait,
+  nishaMain: presidentPortrait,
 } as const;
 
 export const phone = "8802607687";

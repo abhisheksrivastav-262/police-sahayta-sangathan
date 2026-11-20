@@ -3,6 +3,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { ArrowRight, Menu, MessageCircle, Phone, X, type LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Service } from "@/data/site";
+import type { CommunityActivity } from "@/data/community-activities";
 import {
   address,
   directionsLink,
@@ -31,6 +32,37 @@ export function SiteLayout({ children }: { children: ReactNode }) {
         </a>
       </div>
     </div>
+  );
+}
+
+export function CommunityActivityCard({ activity }: { activity: CommunityActivity }) {
+  return (
+    <article className="community-activity-card">
+      {activity.kind === "image" ? (
+        <img
+          className="community-activity-image"
+          src={activity.src}
+          alt={`गतिविधि ${activity.number}: ${activity.description}`}
+          loading="lazy"
+        />
+      ) : (
+        <video
+          className={`community-activity-video ${activity.orientation ?? "portrait"}`}
+          controls
+          playsInline
+          preload="none"
+          poster={activity.poster}
+          aria-label={`वीडियो ${activity.number}: ${activity.description}`}
+        >
+          <source src={activity.src} type="video/mp4" />
+          आपका ब्राउज़र वीडियो चलाने में सक्षम नहीं है।
+        </video>
+      )}
+      <div className="community-activity-caption">
+        <span className="community-activity-number">{String(activity.number).padStart(2, "0")}</span>
+        <p>{activity.description}</p>
+      </div>
+    </article>
   );
 }
 
